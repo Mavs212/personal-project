@@ -1,4 +1,5 @@
 /* add custom styles */
+/*
 #nav {
     float: left;
     width: 280px;
@@ -33,3 +34,8 @@
     background: #ececec;
     border-bottom: 1px dotted #ccc;
   }
+*/
+
+.btn.clicked {
+    background: #ff0;
+}
