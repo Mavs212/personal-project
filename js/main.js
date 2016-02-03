@@ -45,7 +45,7 @@
 $(document).on('ready', function() {
   dietAppender();
   cuisineAppender();
-
+});
 $(document).on('click', '.diet .btn-group-xs', function() {
     $(this).toggleClass('clicked');
   
@@ -60,14 +60,90 @@ $(document).on('click', '.cuisine .btn-group-xs', function () {
 
 $(document).on('click', '#sub', function(event) {
   event.preventDefault();
+  $('.over0').empty();
   console.log($('.diet .clicked'));
   var diet = dietAjaxStringGetter($('.diet .clicked'));
   var cuisine= cuisineAjaxStringGetter();
-  var url="http://api.yummly.com/v1/api/recipes?_app_id=5d0de430&_app_key=e854c40c98b9131e8685322b1db966c5&allowedAllergy[]="+diet+"&allowedCuisine[]="+cuisine;
+  var url="http://api.yummly.com/v1/api/recipes?_app_id=5d0de430&_app_key=e854c40c98b9131e8685322b1db966c5&allowedAllergy[]="+diet+"&allowedCuisine[]="+cuisine+"&maxResult=500&start=0";
+  console.log(url); 
   $.get(url)  
   .done(function(response) {
-    var id=response.matches[0].id;
+    var choices = [];
+    var maxResults = response.totalMatchCount;
+    
+    console.log(randomNum);
+    for(var i =0; i<=2; i++){
+        var randomNum = Math.floor((Math.random() * (100) + 1));
+        choices.push(response.matches[randomNum].id);
+    }
     var newURL="http://api.yummly.com/v1/api/recipe/";
+   $.get(newURL+choices[1]+"?_app_id=5d0de430&_app_key=e854c40c98b9131e8685322b1db966c5");
+   var recipeArray=[];
+   for(var x=0; x<choices.length; x++){
+      $.get(newURL+choices[x]+"?_app_id=5d0de430&_app_key=e854c40c98b9131e8685322b1db966c5")
+      .done(function(response){
+        console.log(response);
+        recipeArray.push(response);
+        var name = response.name;
+        var ingredientLines = response.ingredientLines;
+        var image = response.images[0].hostedLargeUrl;
+        var next = x.toString();
+        console.log(next);
+        $('.over0').append(name);
+        $('.over0').append("<br></br");
+        $('.over0').append("<img src='"+image+"'>");
+        $('.over0').append("<br></br>");
+        $('.over0').append(ingredientLines);
+         $('.over0').append("<br></br>"); 
+      });
+    }
+  });
+});
+
+      /*
+        var name = response.name;
+        var ingredientLines = response.ingredientLines;
+        var image = response.images[0].hostedLargeUrl;
+        //next = j.toString();
+        //console.log(next);
+        //console.log($('.over'+next));
+        console.log(x);
+        if(x===0){
+        $('.over0').append(name);
+        $('.over0').append(ingredientLines);
+        $('.over0').append("<img src='"+image+"'>");
+        }
+      });
+    }
+  });
+}); 
+*/
+//}); 
+  /*  
+    
+  console.log(response.ingredientLines);
+      var name = response.name;
+      var j = "0";
+      $('.over'+j).append(name);
+    
+    var newURL="http://api.yummly.com/v1/api/recipe/";
+    for(var j =0; j<=choices.length; j++){
+      $.get(newURL+choices[j]+"?_app_id=5d0de430&_app_key=e854c40c98b9131e8685322b1db966c5")
+      .done(function(response){
+        var name = response.name;
+        var ingredientLines = response.ingredientLines;
+        var image = response.images[0].hostedLargeUrl;
+        $('.over'+j).append(name);
+        $('.over'+j).append(ingredientLines);
+        $('.over'+j).append("<img src='"+image+"'>");
+      });}
+    });
+  });
+  */
+
+
+/*
+
     $.get(newURL+id+"?_app_id=5d0de430&_app_key=e854c40c98b9131e8685322b1db966c5")
     .done(function(response){
       console.log(response);
@@ -81,6 +157,7 @@ $(document).on('click', '#sub', function(event) {
     }); 
   });
 });
+*/
     /*
       var choices = [];
       for(var i =0; i<=2; i++){

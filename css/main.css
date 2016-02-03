@@ -47,6 +47,8 @@
 }
 .over0{
     background-color:blue;
+    width: 600px;
+    color: black;
 }
 .over1{
     margin-top:10px;
@@ -57,4 +59,7 @@
     margin-top:20px;
     margin-left:-10px;
     background-color:orange;
+}
+.sidebar-nav{
+  margin-top: 95px;
 }
