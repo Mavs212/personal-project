@@ -9,22 +9,30 @@
     $(".diet").append("<li><button type='button' class='btn-group-xs' id='"+currentValue.searchValue+"'>"+currentValue.shortDescription+"</button></li>");
     });
   }
+
   function cuisineAppender(){
     cuisines.forEach(function(currentValue, index, array){
     $(".cuisine").append("<li><button type='button' class='btn-group-xs' id='"+currentValue.searchValue+"'>"+currentValue.name+"</button></li>");
     });
   }
-function ajaxStringGetter(arr){
-  var cool="";
-  for (var i = 0; i < arr.length; i++){
-    if(i===((arr.length)-1)){
-      cool += arr[i].id;
-    }else{
-      cool += arr[i].id+"&";
+
+  function dietAjaxStringGetter(arr){
+    var cool="";
+    for (var i = 0; i < arr.length; i++){
+      if(i===((arr.length)-1)){
+        cool += arr[i].id;
+      }else{
+        cool += arr[i].id+"&allowedDiet[]=";
+      }
     }
+      return cool;
   }
-    return cool;
-}
+
+  function cuisineAjaxStringGetter(){
+   var cool2=$('.cuisine .clicked').attr('id');
+   return cool2;
+  }
+
 
 
 
@@ -52,20 +60,50 @@ $(document).on('click', '.cuisine .btn-group-xs', function () {
 
 $(document).on('click', '#sub', function(event) {
   event.preventDefault();
-  console.log($('.diet .clicked'))
-  var cool2 = ajaxStringGetter($('.diet .clicked'));
-  console.log(cool2);
-    });
-});
-
-  /*
-   $('#nav > li > a').click(function(){
-    $('#nav li ul').removeClass('active');
-    if ($(this).attr('class') != 'active'){
-      $(this).parent().find('ul').addClass('active');
-    }
+  console.log($('.diet .clicked'));
+  var diet = dietAjaxStringGetter($('.diet .clicked'));
+  var cuisine= cuisineAjaxStringGetter();
+  var url="http://api.yummly.com/v1/api/recipes?_app_id=5d0de430&_app_key=e854c40c98b9131e8685322b1db966c5&allowedAllergy[]="+diet+"&allowedCuisine[]="+cuisine;
+  $.get(url)  
+  .done(function(response) {
+    var id=response.matches[0].id;
+    var newURL="http://api.yummly.com/v1/api/recipe/";
+    $.get(newURL+id+"?_app_id=5d0de430&_app_key=e854c40c98b9131e8685322b1db966c5")
+    .done(function(response){
+      console.log(response);
+        var name = response.name;
+        var ingredientLines = response.ingredientLines;
+        var image = response.images[0].hostedLargeUrl;
+        $('.over1').append(name);
+        $('.over1').append(ingredientLines);
+        $('.over1').append("<img src='"+image+"'>");
+      })
+    }); 
   });
 });
+    /*
+      var choices = [];
+      for(var i =0; i<=2; i++){
+        choices.push(response.matches[i].id);
+      }
+      var newUrl="http://api.yummly.com/v1/api/recipe/recipe-id?";
+      for(var j =0; j<=choices.length; j++){
+      $.get(newURL+choices[j])
+      .done(function(response){
+        $('.over'[j]).append(response);
+          }
+          }); 
+        });
+
+
+http://api.yummly.com/v1/api/recipe/recipe-id?Oven-Roasted-Vegetables-483595?_app_id=5d0de430&_app_key=e854c40c98b9131e8685322b1db966c5
+http://api.yummly.com/v1/api/recipe/French-41364?_app_id=5d0de430&_app_key=e854c40c98b9131e8685322b1db966c5
+
+
+  */
+  
+
+
 
 /*
 

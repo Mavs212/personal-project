@@ -40,6 +40,21 @@
     background: #ff0;
 }
 
-.test{
-  
+.holder{
+    height:auto;
+    width:auto;
+    float:left;
+}
+.over0{
+    background-color:blue;
+}
+.over1{
+    margin-top:10px;
+    margin-left:-10px;
+    background-color:green;
+}
+.over2{
+    margin-top:20px;
+    margin-left:-10px;
+    background-color:orange;
 }
