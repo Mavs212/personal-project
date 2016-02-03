@@ -37,7 +37,7 @@
 */
 
 .clicked {
-    background: #ff0;
+    background-color: orange;
 }
 
 .holder{
@@ -45,11 +45,11 @@
     width:auto;
     float:left;
 }
-.over0{
+/*.over0{
     background-color:blue;
     width: 600px;
     color: black;
-}
+}*/
 .over1{
     margin-top:10px;
     margin-left:-10px;
@@ -60,6 +60,19 @@
     margin-left:-10px;
     background-color:orange;
 }
-.sidebar-nav{
+.diet{
   margin-top: 95px;
+}
+
+
+.btn-primary:hover{
+    background-color: none;
+}
+
+.btn:hover{
+  background-color: none;
+}
+
+.cuisine{
+  margin-left: 40px;
 }

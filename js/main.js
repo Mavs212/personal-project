@@ -6,95 +6,85 @@
   
   function dietAppender(){
     diets.forEach(function(currentValue, index, array){
-    $(".diet").append("<li><button type='button' class='btn-group-xs' id='"+currentValue.searchValue+"'>"+currentValue.shortDescription+"</button></li>");
+    $(".diet").append("<li><button type='button' class='btn col-xs-12' id='"+currentValue.searchValue+"'>"+currentValue.shortDescription+"</button></li><br>");
     });
   }
 
   function cuisineAppender(){
     cuisines.forEach(function(currentValue, index, array){
-    $(".cuisine").append("<li><button type='button' class='btn-group-xs' id='"+currentValue.searchValue+"'>"+currentValue.name+"</button></li>");
+    $(".cuisine").append("<option id='"+currentValue.searchValue+"'>"+currentValue.name+"</option>");
+    //$(".cuisine").append("<option><button type='button' class='btn btn-primary col-xs-12' id='"+currentValue.searchValue+"'>"+currentValue.name+"</button></li><br>");
     });
   }
 
   function dietAjaxStringGetter(arr){
-    var cool="";
+    var dietUrlString="";
     for (var i = 0; i < arr.length; i++){
       if(i===((arr.length)-1)){
-        cool += arr[i].id;
+        dietUrlString += arr[i].id;
       }else{
-        cool += arr[i].id+"&allowedDiet[]=";
+        dietUrlString += arr[i].id+"&allowedDiet[]=";
       }
     }
-      return cool;
+      // console.log(dietUrlString);
+      return dietUrlString;
   }
 
   function cuisineAjaxStringGetter(){
-   var cool2=$('.cuisine .clicked').attr('id');
-   return cool2;
+   var cuisineUrlString=$('option:selected').attr("id")
+   // console.log (cuisineUrlString);  
+   return cuisineUrlString;
   }
 
 
 
-
-/*
- diets.forEach(function(currentValue, index, array){
-  console.log(currentValue.longDescription);
-  });
-*/
 
 $(document).on('ready', function() {
   dietAppender();
   cuisineAppender();
 });
-$(document).on('click', '.diet .btn-group-xs', function() {
-    $(this).toggleClass('clicked');
-  
+
+$(document).on('click', '.diet .btn', function() {
+  $(this).toggleClass('clicked');
 });
 
-$(document).on('click', '.cuisine .btn-group-xs', function () {
-  $('.cuisine .btn-group-xs').not(this).removeClass('clicked');    
-  $(this).toggleClass('clicked');
-  console.log($(this).attr('id'));
-  console.log($('#Egg-Free').innerHTML);
-});
+// $(document).on('click', '.cuisine', function () {
+//   $('.cuisine .btn-group-xs').not(this).removeClass('clicked');    
+//   $(this).toggleClass('clicked');
+// });
 
 $(document).on('click', '#sub', function(event) {
   event.preventDefault();
   $('.over0').empty();
-  console.log($('.diet .clicked'));
   var diet = dietAjaxStringGetter($('.diet .clicked'));
   var cuisine= cuisineAjaxStringGetter();
-  var url="http://api.yummly.com/v1/api/recipes?_app_id=5d0de430&_app_key=e854c40c98b9131e8685322b1db966c5&allowedAllergy[]="+diet+"&allowedCuisine[]="+cuisine+"&maxResult=500&start=0";
-  console.log(url); 
-  $.get(url)  
-  .done(function(response) {
+  var url="http://api.yummly.com/v1/api/recipes?_app_id=5d0de430&_app_key=e854c40c98b9131e8685322b1db966c5&allowedAllergy[]="+diet+"&allowedCuisine[]="+cuisine+"&maxResult=20&start=0"; 
+  $.get(url, function(response) {
     var choices = [];
     var maxResults = response.totalMatchCount;
-    
-    console.log(randomNum);
     for(var i =0; i<=2; i++){
-        var randomNum = Math.floor((Math.random() * (100) + 1));
+        var randomNum = Math.floor((Math.random() * (20) + 1));
         choices.push(response.matches[randomNum].id);
     }
-    var newURL="http://api.yummly.com/v1/api/recipe/";
-   $.get(newURL+choices[1]+"?_app_id=5d0de430&_app_key=e854c40c98b9131e8685322b1db966c5");
+    // console.log(choices);
    var recipeArray=[];
-   for(var x=0; x<choices.length; x++){
-      $.get(newURL+choices[x]+"?_app_id=5d0de430&_app_key=e854c40c98b9131e8685322b1db966c5")
-      .done(function(response){
+   var newURL="http://api.yummly.com/v1/api/recipe/";
+   for(var x=0; x<3; x++){  
+      $.get(newURL+choices[x]+"?_app_id=5d0de430&_app_key=e854c40c98b9131e8685322b1db966c5", function(response){
         console.log(response);
         recipeArray.push(response);
         var name = response.name;
+        // console.log(name);
         var ingredientLines = response.ingredientLines;
         var image = response.images[0].hostedLargeUrl;
         var next = x.toString();
-        console.log(next);
-        $('.over0').append(name);
-        $('.over0').append("<br></br");
-        $('.over0').append("<img src='"+image+"'>");
-        $('.over0').append("<br></br>");
-        $('.over0').append(ingredientLines);
-         $('.over0').append("<br></br>"); 
+        $('.holder').append('<div class="recipeStyle col-xs-12" id="showRecipe' + x +'"></div>');
+        $('#showRecipe' + x).append(name);
+        $('#showRecipe' + x).append("<br></br>");
+        $('#showRecipe' + x).append("<img src='"+image+"'>");
+        $('#showRecipe' + x).append("<br></br>");
+        $('#showRecipe' + x).append(ingredientLines);
+        $('#showRecipe' + x).append("<br></br>"); 
       });
     }
   });
