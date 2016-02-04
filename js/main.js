@@ -36,10 +36,10 @@
    return cuisineUrlString;
   }
 
-  function ingredientAppender(arr){
+  function ingredientAppender(arr, x){
     arr.forEach(function(currentValue, index, array){
-      $('#showRecipe').append(currentValue);
-      $('#showRecipe').append("<br> ")
+      $('#showRecipe'+x).append(currentValue);
+      $('#showRecipe'+x).append("<br> ")
     });
   }
 
@@ -66,6 +66,7 @@
     // for(var x = 0; x<3; x++){
       var name = obj.name;
       var ingredientLines = obj.ingredientLines;
+      console.log(ingredientLines);
       var image = obj.images[0].hostedLargeUrl;
       var recipeUrl = obj.source.sourceRecipeUrl;
       $('.holder').append('<div class="recipeStyle col-md-4" id="showRecipe'+x+'"></div>');
@@ -73,7 +74,7 @@
       $('#showRecipe'+x).append("<br></br>");
       $('#showRecipe'+x).append("<img src='"+image+"'>");
       $('#showRecipe'+x).append("<br></br>");
-      ingredientAppender(ingredientLines);
+      ingredientAppender(ingredientLines, x);
       //$('#showRecipe').append(ingredientLines);
       $('#showRecipe'+x).append("<br></br>"); 
       $('#showRecipe'+x).append("<a href='"+recipeUrl+"'target='_blank'>Directions Link</a>");
