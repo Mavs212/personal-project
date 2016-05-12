@@ -81,7 +81,7 @@ $(document).on('click', '#sub', function(event) {
         var i =0;
         while(i<=2){
         var randomNum = Math.floor((Math.random() * (50) + 1));
-        console.log(choices.includes(response.matches[randomNum])
+        console.log(choices.includes(response.matches[randomNum]))
         if(!(choices.includes(response.matches[randomNum]['id']))){
         choices.push(response.matches[randomNum]['id']);
         i++;}}
