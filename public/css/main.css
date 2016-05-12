@@ -1,0 +1,38 @@
+/* add custom styles */
+
+.clicked {
+    background-color: orange;
+}
+
+.holder{
+    height:auto;
+    width:auto;
+    float:left;
+}
+
+.over1{
+    margin-top:10px;
+    margin-left:-10px;
+    background-color:green;
+}
+.over2{
+    margin-top:20px;
+    margin-left:-10px;
+    background-color:orange;
+}
+.diet{
+  margin-top: 95px;
+}
+
+
+.btn-primary:hover{
+    background-color: none;
+}
+
+.btn:hover{
+  background-color: none;
+}
+
+.cuisine{
+  margin-left: 40px;
+}
