@@ -10,7 +10,6 @@
     $(".diet").append("<li><button type='button' class='btn col-xs-12' id='"+currentValue.searchValue+"'>"+currentValue.shortDescription+"</button></li><br>");
     });
   }
-
   function cuisineAppender(){
     cuisines.forEach(function(currentValue, index, array){
     $(".cuisine").append("<option id='"+currentValue.searchValue+"'>"+currentValue.name+"</option>");
