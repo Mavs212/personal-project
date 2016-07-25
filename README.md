@@ -8,7 +8,7 @@ A recipe generator that uses the Yummly API to randomly generate three awesome r
 
 ## Screen Capture
 
-![Gif](/gif.gif "Gif")
+![Gif](/screencapture.gif "Gif")
 
 
 ## Installation
